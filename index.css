@@ -28,6 +28,17 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+}
+
+
+
+.site-content {
+    width:100%;
+    max-width: 1200px;
+    justify-content: center;
+    padding-bottom: 60px;
+    
 }
 
 header {
@@ -73,6 +84,8 @@ nav {
 
 main {
     margin-bottom: 84px;
+    display: flex;
+    justify-content: center;
 }
 
 footer {
@@ -200,6 +213,7 @@ footer {
 /*** VAN PAGES ***/
 .van-list-container {
     padding-inline: 23px;
+
 }
 
 .van-list-filter-buttons {
@@ -214,7 +228,7 @@ footer {
 .van-list {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    justify-items: center;
+   
     gap: 34px;
     margin-top: 57px;
 }
