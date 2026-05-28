@@ -46,6 +46,9 @@ header {
     display: flex;
     align-items: center;
     padding-block: 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 header .site-logo {
