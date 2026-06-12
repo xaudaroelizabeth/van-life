@@ -51,6 +51,12 @@ header {
     width: 100%;
 }
 
+header,
+nav {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 header .site-logo {
     color: black;
     margin-right: auto;
@@ -83,6 +89,8 @@ header .login-link {
 
 nav {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 main {
