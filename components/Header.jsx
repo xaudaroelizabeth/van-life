@@ -1,16 +1,26 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import imageUrl from "../assets/images/avatar-icon.png";
 
 export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const isLoggedIn = localStorage.getItem("loggedin");
+  const navigate = useNavigate();
+
   const activeStyles = {
     fontWeight: "bold",
     textDecoration: "underline",
-    color: "#161616",
+    textUnderlineOffset: "10px",
+    color: "#ff8c38",
   };
 
   function fakeLogOut() {
     localStorage.removeItem("loggedin");
+    navigate("/");
+  }
+
+  function closeMenu() {
+    setMenuOpen(false);
   }
 
   return (
@@ -18,29 +28,62 @@ export default function Header() {
       <Link className="site-logo" to="/">
         #VanLife
       </Link>
-      <nav>
+      <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+        ☰
+      </button>
+      <nav className={`nav ${menuOpen ? "nav-open" : ""}`}>
         <NavLink
-          to="/host"
+          to="/"
+          className="mobile-only"
+          onClick={closeMenu}
           style={({ isActive }) => (isActive ? activeStyles : null)}
         >
-          Host
+          Home
         </NavLink>
-        <NavLink
-          to="/about"
-          style={({ isActive }) => (isActive ? activeStyles : null)}
-        >
-          About
-        </NavLink>
+
         <NavLink
           to="/vans"
+          onClick={closeMenu}
           style={({ isActive }) => (isActive ? activeStyles : null)}
         >
           Vans
         </NavLink>
-        <Link to="login" className="login-link">
-          <img src={imageUrl} className="login-icon" />
+
+        <NavLink
+          to="/about"
+          onClick={closeMenu}
+          style={({ isActive }) => (isActive ? activeStyles : null)}
+        >
+          About
+        </NavLink>
+
+        <NavLink
+          to="/host"
+          onClick={closeMenu}
+          style={({ isActive }) => (isActive ? activeStyles : null)}
+        >
+          Host
+        </NavLink>
+
+        <Link to="login" className="login-link" onClick={closeMenu}>
+          <img src={imageUrl} className="login-icon" alt="Login" />
         </Link>
-        <button onClick={fakeLogOut}>X</button>
+
+        {isLoggedIn ? (
+          <button
+            className="logout-btn mobile-login-link"
+            onClick={() => {
+              fakeLogOut();
+              closeMenu();
+            }}
+          >
+            Log Out
+          </button>
+        ) : (
+          <Link to="login" className="mobile-login-link" onClick={closeMenu}>
+            Log In
+          </Link>
+        )}
       </nav>
     </header>
   );

@@ -7,6 +7,7 @@ export default function Vans() {
   const [vans, setVans] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
+  const [fadeIn, setFadeIn] = React.useState(false);
 
   const typeFilter = searchParams.get("type");
 
@@ -19,12 +20,20 @@ export default function Vans() {
       } catch (err) {
         setError(err);
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
       }
     }
 
     loadVans();
   }, []);
+
+  React.useEffect(() => {
+    if (!loading && vans) {
+      setFadeIn(true);
+    }
+  }, [loading, vans]);
 
   const displayedVans = typeFilter
     ? vans.filter((van) => van.type === typeFilter)
@@ -38,15 +47,16 @@ export default function Vans() {
           search: `?${searchParams.toString()}`,
           type: typeFilter,
         }}
+        className="van-card"
       >
         <img src={van.imageUrl} />
         <div className="van-info">
           <h3>{van.name}</h3>
-          <p>
-            ${van.price}
-            <span>/day</span>
-          </p>
         </div>
+        <p>
+          ${van.price}
+          <span>/day</span>
+        </p>
         <i className={`van-type ${van.type} selected`}>{van.type}</i>
       </Link>
     </div>
@@ -64,7 +74,15 @@ export default function Vans() {
   }
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className="loading">
+        <h1>
+          Loading<span className="dot dot1">.</span>
+          <span className="dot dot2">.</span>
+          <span className="dot dot3">.</span>
+        </h1>
+      </div>
+    );
   }
 
   if (error) {
@@ -72,7 +90,7 @@ export default function Vans() {
   }
 
   return (
-    <div className="van-list-container">
+    <div className={`van-detail-container ${fadeIn ? "fade-in" : ""}`}>
       <h1>Explore our van options</h1>
       <div className="van-list-filter-buttons">
         <button

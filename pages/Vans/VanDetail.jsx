@@ -8,6 +8,7 @@ export default function VanDetail() {
   const [error, setError] = React.useState(null);
   const { id } = useParams();
   const location = useLocation();
+  const [fadeIn, setFadeIn] = React.useState(false);
 
   React.useEffect(() => {
     async function loadVans() {
@@ -19,14 +20,30 @@ export default function VanDetail() {
       } catch (err) {
         setError(err);
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
       }
     }
     loadVans();
   }, [id]);
 
+  React.useEffect(() => {
+    if (!loading && van) {
+      setFadeIn(true);
+    }
+  }, [loading, van]);
+
   if (loading) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className="loading">
+        <h1>
+          Loading<span className="dot dot1">.</span>
+          <span className="dot dot2">.</span>
+          <span className="dot dot3">.</span>
+        </h1>
+      </div>
+    );
   }
 
   if (error) {
@@ -37,7 +54,7 @@ export default function VanDetail() {
   const type = location.state?.type || "all";
 
   return (
-    <div className="van-detail-container">
+    <div className={`van-detail-container ${fadeIn ? "fade-in" : ""}`}>
       <Link to={`..${search}`} relative="path" className="back-button">
         &larr; <span>Back to {type} vans</span>
       </Link>
