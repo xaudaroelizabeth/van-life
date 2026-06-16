@@ -6,10 +6,13 @@ export default function HostVans() {
   const [vans, setVans] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
+  const [fadeIn, setFadeIn] = React.useState(false);
 
   React.useEffect(() => {
     async function loadVans() {
       setLoading(true);
+      setFadeIn(false);
+
       try {
         const data = await getHostVans();
         setVans(data);
@@ -17,8 +20,13 @@ export default function HostVans() {
         setError(err);
       } finally {
         setLoading(false);
+
+        requestAnimationFrame(() => {
+          setFadeIn(true);
+        }, 50);
       }
     }
+
     loadVans();
   }, []);
 
@@ -36,13 +44,15 @@ export default function HostVans() {
 
   if (loading) {
     return (
-      <div className="loading">
-        <h1>
-          Loading<span className="dot dot1">.</span>
-          <span className="dot dot2">.</span>
-          <span className="dot dot3">.</span>
-        </h1>
-      </div>
+      <section className={fadeIn ? "fade-in" : ""}>
+        <div className="loading">
+          <h1>
+            Loading<span className="dot dot1">.</span>
+            <span className="dot dot2">.</span>
+            <span className="dot dot3">.</span>
+          </h1>
+        </div>
+      </section>
     );
   }
 
