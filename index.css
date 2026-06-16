@@ -37,6 +37,8 @@ body {
     width:100%;
     max-width: 1200px;
     padding-bottom: 60px;
+    margin: 0 auto;
+    padding: 0 20px; 
     
 }
 
@@ -222,13 +224,6 @@ footer {
 }
 
 /*** VAN PAGES ***/
-
-.van-info > h3 {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 .van-list-container {
     padding-inline: 23px;
 
@@ -243,7 +238,6 @@ footer {
 .van-list {
     display: grid;
     grid-template-columns: 1fr 1fr;
-   
     gap: 34px;
     margin-top: 57px;
 }
@@ -934,6 +928,14 @@ img.graph {
 
     .van-list {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .van-info>h3 {
+        width: 140px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
     }
 
 }
