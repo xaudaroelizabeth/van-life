@@ -19,7 +19,9 @@ export default function HostVans() {
       } catch (err) {
         setError(err);
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1500);
 
         requestAnimationFrame(() => {
           setFadeIn(true);
@@ -44,8 +46,8 @@ export default function HostVans() {
 
   if (loading) {
     return (
-      <section className={fadeIn ? "fade-in" : ""}>
-        <div className="loading">
+      <section className="loading-wrapper">
+        <div className={`loading ${fadeIn ? "fade-in" : ""}`}>
           <h1>
             Loading<span className="dot dot1">.</span>
             <span className="dot dot2">.</span>
