@@ -39,6 +39,8 @@ body {
     padding-bottom: 60px;
     margin: 0 auto;
     padding: 0 20px; 
+    display: flex;
+    flex-direction: column;
     
 }
 
@@ -367,7 +369,9 @@ i[class*="van-type-"] {
 
 .host-nav {
     display: flex;
-    margin-bottom: 30px;
+    margin: 40px 0;
+    flex-wrap: nowrap;
+    
 }
 
 .host-nav a {
@@ -801,8 +805,8 @@ img.graph {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    min-height:100dvh;
+    flex-grow:1;
+    border: 2px solid red;
  }
 
  .dot {

@@ -7,10 +7,13 @@ export default function HostVanDetail() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
   const { id } = useParams();
+  const [fadeIn, setFadeIn] = React.useState(false);
 
   React.useEffect(() => {
     async function loadVans() {
       setLoading(true);
+      setFadeIn(false);
+
       try {
         const data = await getVan(id);
         setCurrentVan(data);
@@ -18,6 +21,10 @@ export default function HostVanDetail() {
         setError(err);
       } finally {
         setLoading(false);
+
+        requestAnimationFrame(() => {
+          setFadeIn(true);
+        });
       }
     }
 
@@ -25,7 +32,15 @@ export default function HostVanDetail() {
   }, [id]);
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className="loading">
+        <h1>
+          Loading<span className="dot dot1">.</span>
+          <span className="dot dot2">.</span>
+          <span className="dot dot3">.</span>
+        </h1>
+      </div>
+    );
   }
 
   if (error) {
@@ -39,7 +54,7 @@ export default function HostVanDetail() {
   };
 
   return (
-    <section>
+    <section className={fadeIn ? "fade-in" : ""}>
       <Link to=".." relative="path" className="back-button">
         &larr; <span>Back to all vans</span>
       </Link>

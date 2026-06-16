@@ -35,7 +35,15 @@ export default function HostVans() {
   ));
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return (
+      <div className="loading">
+        <h1>
+          Loading<span className="dot dot1">.</span>
+          <span className="dot dot2">.</span>
+          <span className="dot dot3">.</span>
+        </h1>
+      </div>
+    );
   }
 
   if (error) {
