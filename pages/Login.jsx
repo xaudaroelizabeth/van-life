@@ -18,10 +18,15 @@ export default function Login() {
   function handleSubmit(e) {
     e.preventDefault();
     setStatus("submitting");
+
     loginUser(loginFormData)
-      .then((data) => {
+      .then(() => {
         setError(null);
-        localStorage.setItem("loggedin", true);
+        localStorage.setItem("loggedin", "true");
+
+        // notify header (if you're using event sync)
+        window.dispatchEvent(new Event("auth-change"));
+
         navigate(from, { replace: true });
       })
       .catch((err) => {

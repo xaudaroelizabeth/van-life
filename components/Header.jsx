@@ -1,11 +1,29 @@
 import React, { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import imageUrl from "../assets/images/avatar-icon.png";
+import { useLocation } from "react-router-dom";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const isLoggedIn = localStorage.getItem("loggedin");
   const navigate = useNavigate();
+  const location = useLocation();
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  React.useEffect(() => {
+    function syncAuth() {
+      setIsLoggedIn(localStorage.getItem("loggedin") === "true");
+    }
+
+    syncAuth();
+
+    window.addEventListener("storage", syncAuth);
+    window.addEventListener("auth-change", syncAuth);
+
+    return () => {
+      window.removeEventListener("storage", syncAuth);
+      window.removeEventListener("auth-change", syncAuth);
+    };
+  }, []);
 
   const activeStyles = {
     fontWeight: "bold",
@@ -16,7 +34,8 @@ export default function Header() {
 
   function fakeLogOut() {
     localStorage.removeItem("loggedin");
-    navigate("/");
+    setIsLoggedIn(false);
+    navigate("/login");
   }
 
   function closeMenu() {
@@ -65,24 +84,43 @@ export default function Header() {
           Host
         </NavLink>
 
-        <Link to="login" className="login-link" onClick={closeMenu}>
-          <img src={imageUrl} className="login-icon" alt="Login" />
-        </Link>
-
         {isLoggedIn ? (
-          <button
-            className="logout-btn mobile-login-link"
-            onClick={() => {
-              fakeLogOut();
-              closeMenu();
-            }}
-          >
-            Log Out
-          </button>
+          <>
+            {/* DESKTOP */}
+            <button
+              className="login-link logout-btn desktop-only"
+              onClick={fakeLogOut}
+            >
+              <a className="desktop-text">Log Out</a>
+            </button>
+
+            {/* MOBILE */}
+            <button
+              className="logout-btn mobile-login-link"
+              onClick={() => {
+                fakeLogOut();
+                closeMenu();
+              }}
+            >
+              Log Out
+            </button>
+          </>
         ) : (
-          <Link to="login" className="mobile-login-link" onClick={closeMenu}>
-            Log In
-          </Link>
+          <>
+            {/* DESKTOP: icon + text */}
+            <Link
+              to="/login"
+              className="login-link desktop-only "
+              onClick={closeMenu}
+            >
+              Log In
+            </Link>
+
+            {/* MOBILE */}
+            <Link to="/login" className="mobile-login-link" onClick={closeMenu}>
+              Log In
+            </Link>
+          </>
         )}
       </nav>
     </header>
